@@ -36,39 +36,43 @@ class _CardScreenState extends State<CardScreen> {
           }
           if (state is FetchState) {
             return GridView.builder(
+
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 240,
-                childAspectRatio: 1,
-                mainAxisSpacing: 10,
-                 crossAxisSpacing: 10
-              ),
+                  maxCrossAxisExtent: 240,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10),
               itemCount: state.model.data.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            click[index] = !click[index];
-                          });
-                        },
-                        child: state.model.data[index].eventHasDetail
-                            ? Text('ds')
-                            : Container(
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: click[index] ? Colors.red : Colors.blue,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Content(
-                            name: state.model.data[index].name.toString(),
-                            id: state.model.data[index].id.toString(),
-                            startDate: state
-                                .model.data[index].airedDetail.startDateTime
-                                .toString(),
-                            image: state.model.data[index].eventPhoto,
-                            status: state.model.data[index].status.toString(),
-                          ),
-                        ),
-                      );
+                if (state.model.data[index].eventHasDetail == true) {
+                  return SizedBox();
+                } else {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        click[index] = !click[index];
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: click[index] ? Colors.red : Colors.blue,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Content(
+                        name: state.model.data[index].name.toString(),
+                        id: state.model.data[index].id.toString(),
+                        startDate: state
+                            .model.data[index].airedDetail.startDateTime
+                            .toString(),
+                        image: state.model.data[index].eventPhoto,
+                        status: state.model.data[index].status.toString(),
+                      ),
+                    ),
+                  );
+                }
               },
             );
           } else {
